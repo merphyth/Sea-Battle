@@ -1,0 +1,84 @@
+#include<iostream>
+#include<time.h>
+
+using namespace std;
+
+char Proverka(char Matrix[9][9],int matrix[9][9], int rows, int elements)//сравнивает интовый и чаровский массив 
+{                                                                         // Если в интовом массиве прошли какието изменения, в чаровском массиве будут соответсвующие
+	for (int i = 0; i < 9; i++)                                            // 0 - неизвестно; 1 - не попал; 2 - попал
+	{
+		for (int j = 0; j < 9; j++)
+		{
+			if (matrix[i][j] == 0) //изменений нету
+			{
+				continue;
+			}
+			else if (matrix[i][j] == 1) //в этой клетке был совершен ход, но тут не было корабля
+			{
+				Matrix[i][j] = '0';
+			}
+			else if (matrix[i][j] == 2) //в эту клетку был совершен ход, и тут был корабль(часть корабля)
+			{
+				Matrix[i][j] = 'X';
+			}
+		}
+	}
+	return Matrix[9][9];//возвращает новый чаровский массив(измененный)
+}
+
+//int Bot_set(int matrix[9][9], int rows, int elements)// заполнение игрового поля для бота 
+//{
+//	srand(time(NULL));
+//	for (int i = 0; i < 9; i++)
+//	{
+//		int a = rand() % 9 + 1;
+//		for (int j = 0; j < 9; j++)
+//		{
+//
+//		}
+//	}
+//}
+
+void Print(char matrix[9][9], int rows, int elements)//вывод 1 поля
+{
+	matrix[rows][elements];
+	for (int i = 0; i < 9; i++)
+	{
+		for (int j = 0; j < 9; j++)
+		{
+			cout << matrix[i][j];
+		}
+	cout << endl;
+	}
+}
+
+void PrintAll(char matrix1[9][9], char matrix2[9][9], int rows, int elements)//вывод игрового поля 
+{
+	cout << "===============" << "\nPlayer 1" << endl;
+	Print(matrix1, rows, elements);
+	cout << "--------------" << endl << "Player 2\n";
+	Print(matrix2, rows, elements);
+	cout << "==============";
+}
+
+int main() 
+{
+	const int maxships = 9;
+	const int rows = 9;
+	const int elements = 9;
+	char Matrix1[rows][elements];
+	char Matrix2[rows][elements];
+	int matrix1[rows][elements];
+	int matrix2[rows][elements];
+	for (int i = 0; i < 9; i++)
+	{
+		for (int j = 0; j < 9; j++)
+		{
+			matrix1[i][j] = 0;
+			matrix2[i][j] = 0;
+			Matrix1[i][j] = '?';
+			Matrix2[i][j] = '?';
+		}
+	}
+	PrintAll(Matrix1,Matrix2, rows, elements);
+}
