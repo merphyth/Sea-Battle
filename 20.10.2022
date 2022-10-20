@@ -3,48 +3,48 @@
 
 using namespace std;
 
-char Proverka(char Matrix[9][9],int matrix[9][9], int rows, int elements)//сравнивает интовый и чаровский массив 
+char ** Proverka(char ** Matrix,int matrix[][9], const int& rows, const int& elements)//сравнивает интовый и чаровский массив 
 {                                                                         // Если в интовом массиве прошли какието изменения, в чаровском массиве будут соответсвующие
-	for (int i = 0; i < 9; i++)                                            // 0 - неизвестно; 1 - не попал; 2 - попал
+	for (int i = 0; i < rows; i++)                                            // 0 - неизвестно; 2 - не попал; 3 - попал
 	{
-		for (int j = 0; j < 9; j++)
+		for (int j = 0; j < elements; j++)
 		{
 			if (matrix[i][j] == 0) //изменений нету
 			{
 				continue;
 			}
-			else if (matrix[i][j] == 1) //в этой клетке был совершен ход, но тут не было корабля
+			else if (matrix[i][j] == 2) //в этой клетке был совершен ход, но тут не было корабля
 			{
 				Matrix[i][j] = '0';
 			}
-			else if (matrix[i][j] == 2) //в эту клетку был совершен ход, и тут был корабль(часть корабля)
+			else if (matrix[i][j] == 3) //в эту клетку был совершен ход, и тут был корабль(часть корабля)
 			{
 				Matrix[i][j] = 'X';
 			}
 		}
 	}
-	return Matrix[9][9];//возвращает новый чаровский массив(измененный)
+	return Matrix;//возвращает новый чаровский массив(измененный)
 }
 
-//int Bot_set(int matrix[9][9], int rows, int elements)// заполнение игрового поля для бота 
-//{
-//	srand(time(NULL));
-//	for (int i = 0; i < 9; i++)
-//	{
-//		int a = rand() % 9 + 1;
-//		for (int j = 0; j < 9; j++)
-//		{
-//
-//		}
-//	}
-//}
-
-void Print(char matrix[9][9], int rows, int elements)//вывод 1 поля
+int Bot_set(int matrix[][9], const int& rows, const int& elements)// заполнение игрового поля для бота 
 {
-	matrix[rows][elements];
-	for (int i = 0; i < 9; i++)
+	srand(time(NULL));
+	for (int i = 0; i < rows; i++)
 	{
-		for (int j = 0; j < 9; j++)
+		int a = rand() % 9 + 1;
+		for (int j = 0; j < elements; j++)
+		{
+			matrix[i][a] = 1;
+		}
+	}
+	return matrix[rows][elements];
+}
+
+void Print(char matrix[][9], const int& rows, const int& elements)//вывод 1 поля
+{
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < elements; j++)
 		{
 			cout << matrix[i][j];
 		}
@@ -52,7 +52,7 @@ void Print(char matrix[9][9], int rows, int elements)//вывод 1 поля
 	}
 }
 
-void PrintAll(char matrix1[9][9], char matrix2[9][9], int rows, int elements)//вывод игрового поля 
+void PrintAll(char  matrix1[][9], char matrix2[][9], const int& rows, const int& elements)//вывод игрового поля 
 {
 	cout << "===============" << "\nPlayer 1" << endl;
 	Print(matrix1, rows, elements);
@@ -66,10 +66,10 @@ int main()
 	const int maxships = 9;
 	const int rows = 9;
 	const int elements = 9;
-	char Matrix1[rows][elements];
-	char Matrix2[rows][elements];
-	int matrix1[rows][elements];
-	int matrix2[rows][elements];
+	char Matrix1[rows][elements];//карта для отображения(игрок)
+	char Matrix2[rows][elements]; //карта для отображения(бот)
+	int matrix1[rows][elements];   //карта для подсчёта(игрок)
+	int matrix2[rows][elements];    //карта для подсчёта(бот)
 	for (int i = 0; i < 9; i++)
 	{
 		for (int j = 0; j < 9; j++)
@@ -80,5 +80,6 @@ int main()
 			Matrix2[i][j] = '?';
 		}
 	}
+	Bot_set(matrix2 ,rows, elements);
 	PrintAll(Matrix1,Matrix2, rows, elements);
 }
