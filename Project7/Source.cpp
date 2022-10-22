@@ -29,10 +29,6 @@ void make_move(int num) // выполнение хода
 	}
 	int cell;
 	cout << "Enter cell: "; cin >> cell;
-    while (;)
-    {
-
-    }
 }
 
 bool proverka_x(int** pole, int rows, int elements, int dlina_korablya) // проверка заполнения поля по X
@@ -80,15 +76,79 @@ bool sosed(int** pole, int rows, int elements) //проверка на наличие соседнего к
     return netu;
 }
 
-void fight(int num, int x, int y)
+void korabli(int matrix[][9], int& x, int& y, int maxships) // создание кораблей
 {
-    cout << "Your choose:\n"; cin >> x; cin >> y;
-    if (matrix[x][y] == '#')
+	for (size_t i = 0; i < maxships; i++)
+	{
+		x = rand() % SIZE;
+		y = rand() % SIZE;
+		matrix[x][y] = 1;
+	}
+}
+
+void vivod_polya(int matrix[][9], int& x, int& y) // вівод поля
+{
+	for (size_t i = 0; i < SIZE; i++)
+	{
+		for (size_t j = 0; j < SIZE; j++)
+		{
+			cout << matrix[i][j];
+		}
+		cout << endl;
+	}
+}
+
+void vistrel(int matrix[][9], int& x, int& y) // віполнение вістрела
+{
+	bool flag = false;
+	cout << "Enter coord: " << endl;
+	cin >> x;
+	cin >> y;
+	if (matrix[x][y] == 1)
+	{
+		cout << "Nice!" << endl;
+		matrix[x][y] = 0;
+		for (size_t i = 0; i < SIZE; i++) //перевірка
+		{
+			for (size_t j = 0; j < SIZE; j++)
+			{
+				if (matrix[i][j] == 1)
+				{
+					flag = true;
+				}
+			}
+		}
+	}
+	else
+	{
+		cout << "Try again!" << endl;
+	}
+}
+
+//void proverka() //проверка на наличие живих кораблей
+//{
+//	bool flag = false;
+//	for (size_t i = 0; i < SIZE; i++)
+//	{
+//		for (size_t j = 0; j < SIZE; j++)
+//		{
+//			if (matrix[i][j] == 1)
+//			{
+//				flag = true;
+//			}
+//		}
+//	}
+//}
+
+int main()
+{
+    korabli(matrix, x, y, maxships);
+    while (true)
     {
-        matrix[x][y] = 'X';
-    }
-    else
-    {
-        matrix[x][y] = '0';
+        vivod_polya(matrix, x, y);
+        vistrel(matrix, x, y);
+        proverka();
+        _getch();
+        system("cls");
     }
 }
